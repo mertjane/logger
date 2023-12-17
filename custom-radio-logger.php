@@ -22,3 +22,5 @@ function custom_radio_logger_shortcode() {
 
 // Register the shortcode
 add_shortcode('custom_radio_logger', 'custom_radio_logger_shortcode');
+
+?>
