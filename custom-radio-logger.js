@@ -19,61 +19,48 @@ jQuery(document).ready(function($) {
         calculateTiles(sizeName);
     });
 
-    
-    // Calculate tiles based on square meter input
-    function calculateTiles(sizeName) {
-        // Assuming a conversion factor from square millimeters to tiles
-        // Adjust this value based on your specific calculation
-        var conversionFactor = 0.0001; // Adjust this value based on your specific calculation
+    // Function to round a number to the nearest integer
+    function roundToInteger(number) {
+        return Math.round(number);
+    }
 
-        // Parse the dimensions (assuming format: 305x305)
+    // Event handler for square meter input change
+    $('#squareMeterInput').on('input', function () {
+        updateCalculation();
+    });
+
+    // Event handler for tile piece input change
+    $('#tilePieceInput').on('keydown', function (e) {
+        // Prevent entering decimals
+        if (e.key === '.' || e.key === ',') {
+            e.preventDefault();
+        }
+    });
+
+    // Event handler for tile piece input change
+    $('#tilePieceInput').on('input', function () {
+        updateCalculation();
+    });
+
+
+    // Function to update the calculation based on inputs
+    function updateCalculation(sizeName) {
+        var squareMeterValue = parseFloat($('#squareMeterInput').val());
+        var sizeName = $('.woovr-variation-radio.selected').find('.woovr-variation-name').text();
+    
+        // Parse the dimensions (assuming format: 305x305x12 mm)
         var dimensions = sizeName.split('x');
         var length = parseFloat(dimensions[0]);
         var width = parseFloat(dimensions[1]);
+        var thickness = parseFloat(dimensions[2]);
 
-        // Calculate the area in square millimeters
-        var area = length * width;
-
-        // Get the square meter input value
-        var squareMeterInput = $('#squareMeterInput').val();
-
-        // Check if the input is a valid number
-        if ($.isNumeric(squareMeterInput)) {
-            
-            // Calculate the quantity of tiles based on square meter input and round to the nearest whole number
-            var quantity = Math.round((squareMeterInput / area) * conversionFactor);
-
-            // Display the calculated quantity in the quantity input
-            $('#tilePieceInput').val(quantity.toFixed(2));
+        if (!isNaN(squareMeterValue) && squareMeterValue > 0 && !isNaN(length) && length > 0 && !isNaN(width) && width > 0) {
+            var tileQuantity = roundToInteger(squareMeterValue / ((length / 1000) * (width / 1000))); // Convert size to meters
+            $('#tilePieceInput').val(tileQuantity);
+        } else {
+            $('#tilePieceInput').val('');
         }
-    }
-
-    // Calculate square meter based on quantity input
-    $('#tilePieceInput').on('input', function() {
-        // Get the quantity input value
-        var quantityInput = $(this).val();
-
-        // Check if the input is a valid number
-        if ($.isNumeric(quantityInput)) {
-            // Assuming an inverse conversion factor from tiles to square millimeters
-            // Adjust this value based on your specific calculation
-            var inverseConversionFactor = 10000; // Adjust this value based on your specific calculation
-
-            // Parse the dimensions (assuming format: 305x305)
-            var dimensions = $('.woovr-variation-radio.selected').find('.woovr-variation-name').text().split('x');
-            var length = parseFloat(dimensions[0]);
-            var width = parseFloat(dimensions[1]);
-
-            // Calculate the area in square millimeters
-            var area = length * width;
-
-            // Calculate the square meter based on the quantity input
-            var squareMeter = (quantityInput * inverseConversionFactor) * area;
-
-            // Display the calculated square meter in the square meter input
-            $('#squareMeterInput').val(squareMeter.toFixed(3));
-        }
-    });
+    }    
 });
 
 

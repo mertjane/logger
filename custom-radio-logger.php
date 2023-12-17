@@ -25,12 +25,12 @@ function custom_radio_logger_shortcode()
     <div style="display: flex;">
         <div style="display: flex; flex-direction: column; gap: 4px;">
             <label style="align-self: center;font-weight: 600;" for="squareMeterInput">m²</label>
-            <input class="value" type="number" id="squareMeterInput" placeholder="m²">
+            <input style="height: 40px; width: 120px;" class="value" type="number" id="squareMeterInput" placeholder="m²">
         </div>
-        <button><i class="fa">&#xf362;</i></button>
+        <button style="height: 44px; width: 40px;"><i class="fa">&#xf362;</i></button>
         <div style="display: flex; flex-direction: column; gap: 4px;">
             <label style="align-self: center;font-weight: 600;" for="tilePieceInput">Quantity</label>
-            <input class="value" type="number" id="tilePieceInput" placeholder="Quantity">
+            <input style="height: 40px; width: 120px;" class="value" type="number" id="tilePieceInput" placeholder="Quantity">
         </div>
     </div>
     <?php
