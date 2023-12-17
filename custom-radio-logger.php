@@ -16,13 +16,13 @@ add_action('wp_enqueue_scripts', 'add_scripts');
 
 // Shortcode function to display the radio button
 function custom_radio_logger_shortcode() {
-    ob_start(); ?>
+    ob_start(); 
+    ?>
 
-<input type="radio" name="woovr_variation_18837" checked="">
+    <input type="radio" name="woovr_variation_18837" checked="">
 
     <?php
-    $output = ob_get_clean();
-    return $output;
+    return ob_get_clean();
 }
 
 // Register the shortcode
