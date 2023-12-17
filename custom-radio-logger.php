@@ -18,6 +18,8 @@ add_action('wp_enqueue_scripts', 'add_scripts');
 function custom_radio_logger_shortcode() {
     ob_start(); ?>
 
+<input type="radio" name="woovr_variation_18837" checked="">
+
     <?php
     $output = ob_get_clean();
     return $output;
