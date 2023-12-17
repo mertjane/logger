@@ -1,7 +1,7 @@
 jQuery(document).ready(function($) {
     // Wait for the DOM to be ready
-    $('.product-size input').prop("readonly", true);
-    $('.product-size').prepend('Size:');
+    // $('.product-size input').prop("readonly", true);
+    // $('.product-size').prepend('Size:');
 
     // Listen to the radio buttons of the WPC Variations Radio Buttons plugin
     $('.woovr-variation-radio').on('click', function() {
@@ -13,10 +13,7 @@ jQuery(document).ready(function($) {
             sizeName = $(this).find('.woovr-variation-name').text();
         }
 
-        // Display product size name in the Forminator form
-        var selectedValue = $('.product-size input').val(sizeName).change();
-        
-        console.log('Selected radio button value:', selectedValue);
+        console.log('Selected radio button value:', sizeName);
     });
 });
 
