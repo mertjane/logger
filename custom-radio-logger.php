@@ -21,8 +21,19 @@ add_action('wp_enqueue_scripts', 'add_scripts');
 function custom_radio_logger_shortcode()
 {
     ob_start();
-    
-   
+    ?>
+    <div style="display: flex;">
+        <div style="display: flex; flex-direction: column; gap: 4px;">
+            <label style="align-self: center;font-weight: 600;" for="squareMeterInput">m²</label>
+            <input class="value" type="number" id="squareMeterInput" placeholder="m²">
+        </div>
+        <button><i class="fa">&#xf362;</i></button>
+        <div style="display: flex; flex-direction: column; gap: 4px;">
+            <label style="align-self: center;font-weight: 600;" for="tilePieceInput">Quantity</label>
+            <input class="value" type="number" id="tilePieceInput" placeholder="Quantity">
+        </div>
+    </div>
+    <?php
     return ob_get_clean(); 
 }
 
