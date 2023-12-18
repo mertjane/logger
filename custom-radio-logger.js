@@ -94,62 +94,71 @@ jQuery(document).ready(function ($) {
 */
 
 jQuery(document).ready(function ($) {
-    // Function to update tile dimensions based on the selected variation
-    function updateTileDimensions(sizeName, squareMeters) {
-        // Extract width and height from the sizeName (assuming the format is "widthxheight")
-        var dimensions = sizeName.split('x');
-        var tileWidth = parseInt(dimensions[0]) || 1; // Set a default value of 1 if not a valid number
-        var tileHeight = parseInt(dimensions[1]) || 1; // Set a default value of 1 if not a valid number
-
-        // Calculate the number of tiles needed
-        var tilesNeeded = Math.ceil((squareMeters * 1000000) / (tileWidth * tileHeight));
-
-        // Update the tilePieceInput with the calculated quantity
-        $("#tilePieceInput").val(tilesNeeded);
+    // Function to round a number to the nearest integer
+    function roundToInteger(number) {
+        return Math.round(number);
     }
 
-    // Listen for radio button clicks
-    $('.woovr-variation-radio').on('click', function () {
-        var selectedVariation = $(this).data('id');
-
-        // Get the product size name of the selected variation.
-        var sizeName = '';
-        if (selectedVariation !== 0) {
-            sizeName = $(this).find('.woovr-variation-name').text();
-        }
-
-        // Get the entered square meters
-        var squareMeters = parseInt($("#squareMeterInput").val()) || 0;
-
-        // Update tile dimensions based on the selected variation
-        updateTileDimensions(sizeName, squareMeters);
-    });
-
-    // Attach input event listener to squareMeterInput
-    $("#squareMeterInput").on("input", function () {
-        // Remove any non-numeric characters, including decimals
-        var inputValue = $(this).val().replace(/[^\d]/g, '');
-
-        // Update the input value
-        $(this).val(inputValue);
-
-        // Get the entered square meters
-        var squareMeters = parseInt(inputValue) || 0;
-
-        // Get the product size name of the selected variation.
+    // Event handler for square meter input change
+    $('#squareMeterInput').on('input', function () {
+        var squareMeterValue = parseFloat($(this).val());
         var sizeName = '';
 
-        // Get the selected variation if it exists
-        var selectedVariation = $('.woovr-variation-radio:checked').data('id');
-
-        // Get the product size name of the selected variation.
+        // Get the selected variation and sizeName
+        var selectedVariation = $('input[name="_woovr_active"]:checked').data('id');
         if (selectedVariation !== 0) {
-            sizeName = $('.woovr-variation-radio:checked').find('.woovr-variation-name').text();
+            sizeName = $('input[name="_woovr_active"]:checked').find('.woovr-variation-name').text();
         }
 
-        // Update tile dimensions based on the selected variation
-        updateTileDimensions(sizeName, squareMeters);
+        // Extract dimensions from sizeName (assuming the format is "widthxheight", e.g., "305x305")
+        var dimensions = sizeName.split('x');
+        var width = parseFloat(dimensions[0]);
+        var height = parseFloat(dimensions[1]);
+
+        var tileSize = width * height;
+
+        if (!isNaN(squareMeterValue) && squareMeterValue > 0 && !isNaN(tileSize) && tileSize > 0) {
+            var tileQuantity = roundToInteger(squareMeterValue / ((tileSize / 1000) * (tileSize / 1000))); // Convert size to meters
+            $('#tilePieceInput').val(tileQuantity);
+        } else {
+            $('#tilePieceInput').val('');
+        }
     });
+
+    // Event handler for tile piece input change
+    $('#tilePieceInput').on('keydown', function (e) {
+        // Prevent entering decimals
+        if (e.key === '.' || e.key === ',') {
+            e.preventDefault();
+        }
+    });
+
+    // Event handler for tile piece input change
+    $('#tilePieceInput').on('input', function () {
+        var tileQuantity = parseInt($(this).val());
+        var sizeName = '';
+
+        // Get the selected variation and sizeName
+        var selectedVariation = $('input[name="_woovr_active"]:checked').data('id');
+        if (selectedVariation !== 0) {
+            sizeName = $('input[name="_woovr_active"]:checked').find('.woovr-variation-name').text();
+        }
+
+        // Extract dimensions from sizeName (assuming the format is "widthxheight", e.g., "305x305")
+        var dimensions = sizeName.split('x');
+        var width = parseFloat(dimensions[0]);
+        var height = parseFloat(dimensions[1]);
+
+        var tileSize = width * height;
+
+        if (!isNaN(tileQuantity) && tileQuantity > 0 && !isNaN(tileSize) && tileSize > 0) {
+            var squareMeterValue = tileQuantity * ((tileSize / 1000) * (tileSize / 1000)); // Convert size to meters
+            $('#squareMeterInput').val(squareMeterValue.toFixed(3));
+        } else {
+            $('#squareMeterInput').val('');
+        }
+    });
+
 });
 
 
