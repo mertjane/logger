@@ -76,8 +76,8 @@ jQuery(document).ready(function ($) {
         // Calculate quantity based on square meter input and selected dimension
         if (squareMeterValue !== '' && !isNaN(squareMeterValue) && selectedDimension) {
             var dimensions = selectedDimension.split('x');
-            var length = parseInt(dimensions[0], 10);
-            var width = parseInt(dimensions[1], 10);
+            var length = parseFloat(dimensions[0]);
+            var width = parseFloat(dimensions[1]);
 
             var quantity = Math.round((parseFloat(squareMeterValue) / (length * width)) * 100) / 100;
 
@@ -103,5 +103,6 @@ jQuery(document).ready(function ($) {
         return selectedDimension;
     }
 });
+
 
 
