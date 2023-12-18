@@ -96,10 +96,10 @@ jQuery(document).ready(function ($) {
     function calculateTileQuantity(squareMeters, dimension) {
         // Split the dimension into width and height
         var dimensions = dimension.split('x');
-        var width = parseFloat(dimensions[0]);
-        var height = parseFloat(dimensions[1]);
+        var width = parseFloat(dimensions[0]) / 1000; // Convert mm to meters
+        var height = parseFloat(dimensions[1]) / 1000; // Convert mm to meters
 
-        // Calculate tile quantity (assuming dimensions are in meters)
+        // Calculate tile quantity
         var tileQuantity = (squareMeters / (width * height)).toFixed(2);
         return tileQuantity;
     }
@@ -108,11 +108,11 @@ jQuery(document).ready(function ($) {
     function calculateSquareMeters(tileQuantity, dimension) {
         // Split the dimension into width and height
         var dimensions = dimension.split('x');
-        var width = parseFloat(dimensions[0]);
-        var height = parseFloat(dimensions[1]);
+        var width = parseFloat(dimensions[0]) / 1000; // Convert mm to meters
+        var height = parseFloat(dimensions[1]) / 1000; // Convert mm to meters
 
-        // Calculate square meters (assuming dimensions are in meters)
-        var squareMeters = (tileQuantity * width * height).toFixed(3);
+        // Calculate square meters
+        var squareMeters = (tileQuantity * width * height).toFixed(2);
         return squareMeters;
     }
 });
