@@ -104,7 +104,7 @@ jQuery(document).ready(function ($) {
         var tileWidth = parseInt(dimensions[0]) / 1000;
         var tileHeight = parseInt(dimensions[1]) / 1000;
 
-        var tilesNeeded = (squareMeters / (tileWidth * tileHeight)).toFixed(2);
+        var tilesNeeded = (squareMeters / (tileWidth * tileHeight)).toFixed();
 
         $("#tilePieceInput").val(tilesNeeded);
     }
@@ -125,7 +125,14 @@ jQuery(document).ready(function ($) {
             sizeName = $(this).find('.woovr-variation-name').text();
         }
 
-        updateTileDimensions();
+        // Check if sizeName includes "Full Size Sample" or "Free Sample" and disable inputs
+        if (sizeName.includes("Full Size Sample") || sizeName.includes("Free Sample")) {
+            $("#squareMeterInput, #tilePieceInput").prop('disabled', true);
+        } else {
+            $("#squareMeterInput, #tilePieceInput").prop('disabled', false);
+            updateTileDimensions();
+        }
+        // updateTileDimensions();
     });
 });
 
