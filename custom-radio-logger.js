@@ -147,7 +147,7 @@ jQuery(document).ready(function ($) {
         var tileWidth = parseInt(dimensions[0]) / 1000;
         var tileHeight = parseInt(dimensions[1]) / 1000;
 
-        var tilesNeeded = (squareMeters / (tileWidth * tileHeight)).toFixed(2);
+        var tilesNeeded = (squareMeters / (tileWidth * tileHeight)).toFixed();
 
         $("#tilePieceInput").val(tilesNeeded);
     }
@@ -170,7 +170,9 @@ jQuery(document).ready(function ($) {
 
     // Trigger the calculation on page load
     var $selectedRadio = $('.woovr-variation-radio:checked');
-    handleRadioClick($selectedRadio);
+    if ($selectedRadio.length > 0) {
+        handleRadioClick($selectedRadio);
+    }
 
     // Listen for radio button clicks
     $('.woovr-variation-radio').on('click', function () {
