@@ -48,8 +48,6 @@
 
 */
 
-/*
-
 jQuery(document).ready(function ($) {
 
     $("#squareMeterInput").on("input", function () {
@@ -82,11 +80,12 @@ jQuery(document).ready(function ($) {
         function updateTileDimensions(sizeName) {
             // Extract width and height from the sizeName (assuming the format is "widthxheight")
             var dimensions = sizeName.split('x');
-            var tileWidth = parseInt(dimensions[0]) || 1; // Set a default value of 1 if not a valid number
-            var tileHeight = parseInt(dimensions[1]) || 1; // Set a default value of 1 if not a valid number
+            var tileWidth = parseInt(dimensions[0]) / 1000; // Set a default value of 1 if not a valid number
+            var tileHeight = parseInt(dimensions[1]) / 1000; // Set a default value of 1 if not a valid number
 
             // Calculate the number of tiles needed
-            var tilesNeeded = Math.ceil((squareMeters * 1000000) / (tileWidth * tileHeight));
+            
+            var tilesNeeded = (squareMeters / (tileWidth * tileHeight)).toFixed(2);
 
             // Update the tilePieceInput with the calculated quantity
             $("#tilePieceInput").val(tilesNeeded);
@@ -94,76 +93,9 @@ jQuery(document).ready(function ($) {
     });
 });
 
-*/
 
-jQuery(document).ready(function ($) {
 
-    // Listen to changes in the squareMeterInput field
-    $('#squareMeterInput').on('input', function () {
-        // Get the selected dimension from the radio buttons
-        var selectedDimension = getSelectedDimension();
 
-        // Calculate the tile quantity based on square meters
-        var squareMeters = parseFloat($(this).val());
-        if (!isNaN(squareMeters)) {
-            var tileQuantity = calculateTileQuantity(squareMeters, selectedDimension);
-            $('#tilePieceInput').val(tileQuantity);
-        } else {
-            // Clear the tile quantity if the input is not a valid number
-            $('#tilePieceInput').val('');
-        }
-    });
-
-    // Listen to changes in the tilePieceInput field
-    $('#tilePieceInput').on('input', function () {
-        // Get the selected dimension from the radio buttons
-        var selectedDimension = getSelectedDimension();
-
-        // Calculate the square meters based on tile quantity
-        var tileQuantity = parseFloat($(this).val());
-        if (!isNaN(tileQuantity)) {
-            var squareMeters = calculateSquareMeters(tileQuantity, selectedDimension);
-            $('#squareMeterInput').val(squareMeters);
-        } else {
-            // Clear the square meter input if the input is not a valid number
-            $('#squareMeterInput').val('');
-        }
-    });
-
-    // Function to get the selected dimension from the radio buttons
-    function getSelectedDimension() {
-        var selectedVariation = $('.woovr-variation-radio.active').data('id');
-        var sizeName = '';
-        if (selectedVariation !== 0) {
-            sizeName = $('.woovr-variation-radio.active').find('.woovr-variation-name').text();
-        }
-        return sizeName;
-    }
-
-    // Function to calculate tile quantity based on square meters
-    function calculateTileQuantity(squareMeters, dimension) {
-        // Split the dimension into width and height
-        var dimensions = dimension.split('x');
-        var width = parseFloat(dimensions[0]) / 1000; // Convert mm to meters
-        var height = parseFloat(dimensions[1]) / 1000; // Convert mm to meters
-
-        // Calculate tile quantity
-        var tileQuantity = (squareMeters / (width * height)).toFixed(2);
-        return tileQuantity;
-    }
-
-    // Function to calculate square meters based on tile quantity
-    function calculateSquareMeters(tileQuantity, dimension) {
-        // Split the dimension into width and height
-        var dimensions = dimension.split('x');
-        var width = parseFloat(dimensions[0]) / 1000; // Convert mm to meters
-        var height = parseFloat(dimensions[1]) / 1000; // Convert mm to meters
-
-        // Calculate square meters
-        var squareMeters = (tileQuantity * width * height).toFixed(2);
-        return squareMeters;
-    }
-});
 
 
 
