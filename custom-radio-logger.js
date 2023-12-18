@@ -93,7 +93,7 @@ jQuery(document).ready(function ($) {
 });
 */
 
-$(document).ready(function(){
+jQuery(document).ready(function ($) {
     // Default tileSize, will be dynamically updated
     var tileSize = 305 * 305;
 
