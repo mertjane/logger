@@ -96,49 +96,39 @@ jQuery(document).ready(function ($) {
 */
 
 jQuery(document).ready(function ($) {
-    // Move sizeName variable and updateTileDimensions function outside the input event handler
     var sizeName = '';
+    var squareMeters = 0; // Declare squareMeters outside the event handler
 
     function updateTileDimensions() {
-        // Extract width and height from the sizeName (assuming the format is "widthxheight")
         var dimensions = sizeName.split('x');
-        var tileWidth = parseInt(dimensions[0]) / 1000; // Set a default value of 1 if not a valid number
-        var tileHeight = parseInt(dimensions[1]) / 1000; // Set a default value of 1 if not a valid number
+        var tileWidth = parseInt(dimensions[0]) / 1000;
+        var tileHeight = parseInt(dimensions[1]) / 1000;
 
-        // Calculate the number of tiles needed
         var tilesNeeded = (squareMeters / (tileWidth * tileHeight)).toFixed(2);
 
-        // Update the tilePieceInput with the calculated quantity
         $("#tilePieceInput").val(tilesNeeded);
     }
 
     $("#squareMeterInput").on("input", function () {
-        // Remove any non-numeric characters, including decimals
         var inputValue = $(this).val().replace(/[^\d]/g, '');
-
-        // Update the input value
         $(this).val(inputValue);
 
-        // Get the entered square meters
-        var squareMeters = parseInt(inputValue) || 0;
+        squareMeters = parseInt(inputValue) || 0; // Update squareMeters here
 
-        // Call the updateTileDimensions function
         updateTileDimensions();
     });
 
-    // Listen for radio button clicks
     $('.woovr-variation-radio').on('click', function () {
         var selectedVariation = $(this).data('id');
 
-        // Get the product size name of the selected variation.
         if (selectedVariation !== 0) {
             sizeName = $(this).find('.woovr-variation-name').text();
         }
 
-        // Update tile dimensions based on the selected variation
         updateTileDimensions();
     });
 });
+
 
 
 
