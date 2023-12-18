@@ -179,7 +179,7 @@ jQuery(document).ready(function ($) {
         handleRadioClick($(this));
     });
 
-    /*
+
     $("#squareMeterInput").on("input", function () {
         var inputValue = $(this).val().replace(/[^\d]/g, '');
         $(this).val(inputValue);
@@ -188,19 +188,8 @@ jQuery(document).ready(function ($) {
         
         updateTileDimensions();
     });
-    */
-    $("#squareMeterInput").on("input", function () {
-        var inputValue = $(this).val().replace(/[^\d]/g, '');
-        $(this).val(inputValue);
-
-        squareMeters = parseInt(inputValue) || 0;
-
-        // Trigger the click event for the selected radio button
-        var $selectedRadio = $('.woovr-variation-radio:checked');
-        if ($selectedRadio.length > 0) {
-            $selectedRadio.click();
-        }
-    });
+    
+   
 });
 
 
