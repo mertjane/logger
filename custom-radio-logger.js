@@ -16,6 +16,8 @@ jQuery(document).ready(function ($) {
     // Listen to changes in the square meter input field
     $('#squareMeterInput').on('input', function () {
         var squareMeterValue = $(this).val();
+        squareMeterValue = squareMeterValue.replace(/\.\d+/g, '');
+        $(this).val(squareMeterValue);
         console.log('Square Meter Input:', squareMeterValue);
 
         // Your existing calculation logic here
@@ -30,6 +32,8 @@ jQuery(document).ready(function ($) {
     // Listen to changes in the tile piece input field
     $('#tilePieceInput').on('input', function () {
         var tilePieceValue = $(this).val();
+        tilePieceValue = tilePieceValue.replace(/\.\d+/g, '');
+        $(this).val(tilePieceValue);
         console.log('Tile Piece Input:', tilePieceValue);
 
         // Your existing calculation logic here
