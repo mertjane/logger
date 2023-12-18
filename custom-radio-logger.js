@@ -112,7 +112,7 @@ jQuery(document).ready(function ($) {
         var height = parseFloat(dimensions[1]);
 
         // Calculate square meters (assuming dimensions are in meters)
-        var squareMeters = (tileQuantity * width * height).toFixed(2);
+        var squareMeters = (tileQuantity * width * height).toFixed(3);
         return squareMeters;
     }
 });
