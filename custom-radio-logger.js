@@ -48,6 +48,54 @@
 
 */
 
+/*
+
+jQuery(document).ready(function ($) {
+
+    $("#squareMeterInput").on("input", function () {
+        // Remove any non-numeric characters, including decimals
+        var inputValue = $(this).val().replace(/[^\d]/g, '');
+
+        // Update the input value
+        $(this).val(inputValue);
+
+        // Get the entered square meters
+        var squareMeters = parseInt(inputValue) || 0;
+
+        // Get the product size name of the selected variation.
+        var sizeName = '';
+
+        // Listen for radio button clicks
+        $('.woovr-variation-radio').on('click', function () {
+            var selectedVariation = $(this).data('id');
+
+            // Get the product size name of the selected variation.
+            if (selectedVariation !== 0) {
+                sizeName = $(this).find('.woovr-variation-name').text();
+            }
+
+            // Update tile dimensions based on the selected variation
+            updateTileDimensions(sizeName);
+        });
+
+        // Function to update tile dimensions based on the selected variation
+        function updateTileDimensions(sizeName) {
+            // Extract width and height from the sizeName (assuming the format is "widthxheight")
+            var dimensions = sizeName.split('x');
+            var tileWidth = parseInt(dimensions[0]) || 1; // Set a default value of 1 if not a valid number
+            var tileHeight = parseInt(dimensions[1]) || 1; // Set a default value of 1 if not a valid number
+
+            // Calculate the number of tiles needed
+            var tilesNeeded = Math.ceil((squareMeters * 1000000) / (tileWidth * tileHeight));
+
+            // Update the tilePieceInput with the calculated quantity
+            $("#tilePieceInput").val(tilesNeeded);
+        }
+    });
+});
+
+*/
+
 jQuery(document).ready(function ($) {
 
     // Listen to changes in the squareMeterInput field
@@ -116,6 +164,9 @@ jQuery(document).ready(function ($) {
         return squareMeters;
     }
 });
+
+
+
 
 
 
