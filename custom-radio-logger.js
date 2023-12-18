@@ -95,6 +95,7 @@ jQuery(document).ready(function ($) {
 });
 */
 
+/*
 jQuery(document).ready(function ($) {
     var sizeName = '';
     var squareMeters = 0; // Declare squareMeters outside the event handler
@@ -135,7 +136,56 @@ jQuery(document).ready(function ($) {
         // updateTileDimensions();
     });
 });
+*/
 
+jQuery(document).ready(function ($) {
+    var sizeName = '';
+    var squareMeters = 0;
+
+    function updateTileDimensions() {
+        var dimensions = sizeName.split('x');
+        var tileWidth = parseInt(dimensions[0]) / 1000;
+        var tileHeight = parseInt(dimensions[1]) / 1000;
+
+        var tilesNeeded = (squareMeters / (tileWidth * tileHeight)).toFixed(2);
+
+        $("#tilePieceInput").val(tilesNeeded);
+    }
+
+    function handleRadioClick($radio) {
+        var selectedVariation = $radio.data('id');
+
+        if (selectedVariation !== 0) {
+            sizeName = $radio.find('.woovr-variation-name').text();
+        }
+
+        // Check if sizeName includes "Full Size Sample" or "Free Sample" and disable inputs
+        if (sizeName.includes("Full Size Sample") || sizeName.includes("Free Sample")) {
+            $("#squareMeterInput, #tilePieceInput").prop('disabled', true);
+        } else {
+            $("#squareMeterInput, #tilePieceInput").prop('disabled', false);
+            updateTileDimensions();
+        }
+    }
+
+    // Trigger the calculation on page load
+    var $selectedRadio = $('.woovr-variation-radio:checked');
+    handleRadioClick($selectedRadio);
+
+    // Listen for radio button clicks
+    $('.woovr-variation-radio').on('click', function () {
+        handleRadioClick($(this));
+    });
+
+    $("#squareMeterInput").on("input", function () {
+        var inputValue = $(this).val().replace(/[^\d]/g, '');
+        $(this).val(inputValue);
+
+        squareMeters = parseInt(inputValue) || 0;
+        
+        updateTileDimensions();
+    });
+});
 
 
 
