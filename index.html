@@ -4,6 +4,7 @@
     <meta charset="UTF-8">
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
     <title>Document</title>
+    <script src="https://code.jquery.com/jquery-3.6.4.min.js"></script>
 </head>
 <body>
     <div style="display: flex;">
@@ -14,8 +15,19 @@
         <button style="height: 44px; width: 40px;"><i class="fa">&#xf362;</i></button>
         <div style="display: flex; flex-direction: column; gap: 4px;">
             <label style="align-self: center;font-weight: 600;" for="tilePieceInput">Quantity</label>
-            <input style="height: 40px; width: 120px;" class="value" type="number" id="tilePieceInput" placeholder="Quantity">
+            <input style="height: 40px; width: 120px;" class="value" type="number" id="tilePieceInput" placeholder="Quantity" readonly>
         </div>
     </div>
+
+    <script>
+        $(document).ready(function(){
+            $("#squareMeterInput").on("input", function(){
+                var squareMeter = $(this).val();
+                var tileSize = 305 * 305 / 1000000; // Convert square millimeters to square meters
+                var quantity = Math.ceil(squareMeter / tileSize);
+                $("#tilePieceInput").val(quantity);
+            });
+        });
+    </script>
 </body>
 </html>

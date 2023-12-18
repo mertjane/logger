@@ -93,72 +93,43 @@ jQuery(document).ready(function ($) {
 });
 */
 
-jQuery(document).ready(function ($) {
-    // Function to round a number to the nearest integer
-    function roundToInteger(number) {
-        return Math.round(number);
+$(document).ready(function(){
+    // Default tileSize, will be dynamically updated
+    var tileSize = 305 * 305;
+
+    // Your existing radio button click event listener
+    $('.woovr-variation-radio').on('click', function () {
+        var selectedVariation = $(this).data('id');
+        var sizeName = '';
+
+        if (selectedVariation !== 0) {
+            sizeName = $(this).find('.woovr-variation-name').text();
+            // Call a function to update tileSize based on the selected size
+            updateTileSize(sizeName);
+        }
+    });
+
+    function updateTileSize(sizeName) {
+        // Assuming the sizeName contains dimensions in the format "width x height"
+        var dimensions = sizeName.split(' x ');
+        
+        // Assuming the dimensions are in millimeters
+        var width = parseInt(dimensions[0]);
+        var height = parseInt(dimensions[1]);
+
+        // Set tileSize based on the selected size
+        tileSize = width * height;
+
+        // Update the tile calculation logic with the new tileSize
+        $("#squareMeterInput").trigger("input");
     }
 
-    // Event handler for square meter input change
-    $('#squareMeterInput').on('input', function () {
-        var squareMeterValue = parseFloat($(this).val());
-        var sizeName = '';
-
-        // Get the selected variation and sizeName
-        var selectedVariation = $('input[name="_woovr_active"]:checked').data('id');
-        if (selectedVariation !== 0) {
-            sizeName = $('input[name="_woovr_active"]:checked').find('.woovr-variation-name').text();
-        }
-
-        // Extract dimensions from sizeName (assuming the format is "widthxheight", e.g., "305x305")
-        var dimensions = sizeName.split('x');
-        var width = parseFloat(dimensions[0]);
-        var height = parseFloat(dimensions[1]);
-
-        var tileSize = width * height;
-
-        if (!isNaN(squareMeterValue) && squareMeterValue > 0 && !isNaN(tileSize) && tileSize > 0) {
-            var tileQuantity = roundToInteger(squareMeterValue / ((tileSize / 1000) * (tileSize / 1000))); // Convert size to meters
-            $('#tilePieceInput').val(tileQuantity);
-        } else {
-            $('#tilePieceInput').val('');
-        }
+    // Tile calculation based on square meters
+    $("#squareMeterInput").on("input", function(){
+        var squareMeter = $(this).val();
+        var quantity = Math.ceil(squareMeter / tileSize);
+        $("#tilePieceInput").val(quantity);
     });
-
-    // Event handler for tile piece input change
-    $('#tilePieceInput').on('keydown', function (e) {
-        // Prevent entering decimals
-        if (e.key === '.' || e.key === ',') {
-            e.preventDefault();
-        }
-    });
-
-    // Event handler for tile piece input change
-    $('#tilePieceInput').on('input', function () {
-        var tileQuantity = parseInt($(this).val());
-        var sizeName = '';
-
-        // Get the selected variation and sizeName
-        var selectedVariation = $('input[name="_woovr_active"]:checked').data('id');
-        if (selectedVariation !== 0) {
-            sizeName = $('input[name="_woovr_active"]:checked').find('.woovr-variation-name').text();
-        }
-
-        // Extract dimensions from sizeName (assuming the format is "widthxheight", e.g., "305x305")
-        var dimensions = sizeName.split('x');
-        var width = parseFloat(dimensions[0]);
-        var height = parseFloat(dimensions[1]);
-
-        var tileSize = width * height;
-
-        if (!isNaN(tileQuantity) && tileQuantity > 0 && !isNaN(tileSize) && tileSize > 0) {
-            var squareMeterValue = tileQuantity * ((tileSize / 1000) * (tileSize / 1000)); // Convert size to meters
-            $('#squareMeterInput').val(squareMeterValue.toFixed(3));
-        } else {
-            $('#squareMeterInput').val('');
-        }
-    });
-
 });
 
 
