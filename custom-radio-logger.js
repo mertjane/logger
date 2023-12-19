@@ -153,6 +153,11 @@ jQuery(document).ready(function ($) {
 
         // Update the quantity input with the calculated tilesNeeded value
         updateQuantityInput(tilesNeeded);
+
+        // Trigger change event on the quantity input with a delay
+        setTimeout(function () {
+            $("input[title='Qty']").trigger('change');
+        }, 100);
     }
 
     function updateQuantityInput(value) {
@@ -173,6 +178,11 @@ jQuery(document).ready(function ($) {
 
         var calculatedSquareMeters = numberOfTiles * tileWidth * tileHeight;
         $("#squareMeterInput").val(calculatedSquareMeters.toFixed(3));
+
+        // Trigger change event on the quantity input with a delay
+        setTimeout(function () {
+            $("input[title='Qty']").trigger('change');
+        }, 100);
     }
 
 
@@ -211,17 +221,17 @@ jQuery(document).ready(function ($) {
         $(this).val(inputValue);
 
         squareMeters = parseInt(inputValue) || 0;
-        
+
         updateTileDimensions();
     });
-    
+
     $("#tilePieceInput").on("input", function () {
         updateSquareMeters();
     });
 
     $("#tilePieceInput").on("input", function () {
         updateSquareMeters();
-        
+
         // Update the quantity input with the value from tilePieceInput
         updateQuantityInput($(this).val());
     });
