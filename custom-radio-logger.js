@@ -157,7 +157,7 @@ jQuery(document).ready(function ($) {
 
     function updateQuantityInput(value) {
         // Update the quantity input with the provided value
-        $("#quantity_65819c7be03d2").val(value);
+        $("input[name='quantity']").val(value);
     }
 
 
