@@ -30,7 +30,7 @@ function custom_radio_logger_shortcode()
         <button style="height: 44px; width: 40px;"><i class="fa">&#xf362;</i></button>
         <div style="display: flex; flex-direction: column; gap: 4px;">
             <label style="align-self: center;font-weight: 600;" for="tilePieceInput">Quantity</label>
-            <input style="height: 40px; width: 120px;" class="value" type="number" id="tilePieceInput" placeholder="Quantity">
+            <input style="height: 40px; width: 120px;" class="value" oninput="this.value=(parseInt(this.value)||0)" type="number" id="tilePieceInput" placeholder="Quantity">
         </div>
     </div>
     <?php

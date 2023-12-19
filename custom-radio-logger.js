@@ -167,8 +167,8 @@ jQuery(document).ready(function ($) {
 
 
     function updateSquareMeters() {
-        var inputValue = $("#tilePieceInput").val().replace(/[^\d.]/g, '');
-        $("#tilePieceInput").val(inputValue);
+        // var inputValue = $("#tilePieceInput").val().replace(/[^\d.]/g, '');
+        // $("#tilePieceInput").val(inputValue);
 
         var numberOfTiles = parseFloat(inputValue) || 0;
 
@@ -217,8 +217,8 @@ jQuery(document).ready(function ($) {
 
 
     $("#squareMeterInput").on("input", function () {
-        var inputValue = $(this).val().replace(/[^\d]/g, '');
-        $(this).val(inputValue);
+        // var inputValue = $(this).val().replace(/[^\d]/g, '');
+        // $(this).val(inputValue);
 
         squareMeters = parseInt(inputValue) || 0;
 
@@ -235,6 +235,14 @@ jQuery(document).ready(function ($) {
         // Update the quantity input with the value from tilePieceInput
         updateQuantityInput($(this).val());
     });
+
+    // Reset inputs
+    $("#tilePieceInput").on("click", function () {
+        $(this).val('');
+    })
+    $("#squareMeterInput").on("click", function () {
+        $(this).val('');
+    })
 });
 
 
