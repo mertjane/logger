@@ -196,7 +196,7 @@ jQuery(document).ready(function ($) {
 
 
     $("#squareMeterInput").on("input", function () {
-        // var inputValue = $(this).val().replace(/[^\d]/g, '');
+        var inputValue = $(this).val().replace(/[^\d]/g, '');
         $(this).val(inputValue);
 
         squareMeters = parseInt(inputValue) || 0;
