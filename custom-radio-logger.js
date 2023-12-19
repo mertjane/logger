@@ -152,8 +152,14 @@ jQuery(document).ready(function ($) {
         $("#tilePieceInput").val(tilesNeeded);
 
         // Update the quantity input with the calculated tilesNeeded value
-        $("#quantity_65818dec21e17").val(tilesNeeded);
+        updateQuantityInput(tilesNeeded);
     }
+
+    function updateQuantityInput(value) {
+        // Update the quantity input with the provided value
+        $("#quantity_65818dec21e17").val(value);
+    }
+
 
     function updateSquareMeters() {
         var inputValue = $("#tilePieceInput").val().replace(/[^\d.]/g, '');
