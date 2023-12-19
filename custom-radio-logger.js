@@ -152,6 +152,21 @@ jQuery(document).ready(function ($) {
         $("#tilePieceInput").val(tilesNeeded);
     }
 
+    function updateSquareMeters() {
+        var inputValue = $("#tilePieceInput").val().replace(/[^\d.]/g, '');
+        $("#tilePieceInput").val(inputValue);
+
+        var numberOfTiles = parseFloat(inputValue) || 0;
+
+        var dimensions = sizeName.split('x');
+        var tileWidth = parseInt(dimensions[0]) / 1000;
+        var tileHeight = parseInt(dimensions[1]) / 1000;
+
+        var calculatedSquareMeters = numberOfTiles * tileWidth * tileHeight;
+        $("#squareMeterInput").val(calculatedSquareMeters.toFixed(3));
+    }
+
+
     function handleRadioClick($radio) {
         var selectedVariation = $radio.data('id');
 
@@ -181,7 +196,7 @@ jQuery(document).ready(function ($) {
 
 
     $("#squareMeterInput").on("input", function () {
-        var inputValue = $(this).val().replace(/[^\d]/g, '');
+        // var inputValue = $(this).val().replace(/[^\d]/g, '');
         $(this).val(inputValue);
 
         squareMeters = parseInt(inputValue) || 0;
@@ -189,7 +204,9 @@ jQuery(document).ready(function ($) {
         updateTileDimensions();
     });
     
-   
+    $("#tilePieceInput").on("input", function () {
+        updateSquareMeters();
+    });
 });
 
 
