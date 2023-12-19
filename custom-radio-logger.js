@@ -150,6 +150,9 @@ jQuery(document).ready(function ($) {
         var tilesNeeded = (squareMeters / (tileWidth * tileHeight)).toFixed();
 
         $("#tilePieceInput").val(tilesNeeded);
+
+        // Update the quantity input with the calculated tilesNeeded value
+        $("#quantity_65818dec21e17").val(tilesNeeded);
     }
 
     function updateSquareMeters() {
