@@ -48,99 +48,12 @@
 
 */
 
-/*
-jQuery(document).ready(function ($) {
-
-    $("#squareMeterInput").on("input", function () {
-        // Remove any non-numeric characters, including decimals
-        var inputValue = $(this).val().replace(/[^\d]/g, '');
-
-        // Update the input value
-        $(this).val(inputValue);
-
-        // Get the entered square meters
-        var squareMeters = parseInt(inputValue) || 0;
-
-        // Get the product size name of the selected variation.
-        var sizeName = '';
-
-        // Listen for radio button clicks
-        $('.woovr-variation-radio').on('click', function () {
-            var selectedVariation = $(this).data('id');
-
-            // Get the product size name of the selected variation.
-            if (selectedVariation !== 0) {
-                sizeName = $(this).find('.woovr-variation-name').text();
-            }
-
-            // Update tile dimensions based on the selected variation
-            updateTileDimensions(sizeName);
-        });
-
-        // Function to update tile dimensions based on the selected variation
-        function updateTileDimensions(sizeName) {
-            // Extract width and height from the sizeName (assuming the format is "widthxheight")
-            var dimensions = sizeName.split('x');
-            var tileWidth = parseInt(dimensions[0]) / 1000; // Set a default value of 1 if not a valid number
-            var tileHeight = parseInt(dimensions[1]) / 1000; // Set a default value of 1 if not a valid number
-
-            // Calculate the number of tiles needed
-            
-            var tilesNeeded = (squareMeters / (tileWidth * tileHeight)).toFixed();
-
-            // Update the tilePieceInput with the calculated quantity
-            $("#tilePieceInput").val(tilesNeeded);
-        }
-    });
-});
-*/
-
-/*
-jQuery(document).ready(function ($) {
-    var sizeName = '';
-    var squareMeters = 0; // Declare squareMeters outside the event handler
-
-    function updateTileDimensions() {
-        var dimensions = sizeName.split('x');
-        var tileWidth = parseInt(dimensions[0]) / 1000;
-        var tileHeight = parseInt(dimensions[1]) / 1000;
-
-        var tilesNeeded = (squareMeters / (tileWidth * tileHeight)).toFixed();
-
-        $("#tilePieceInput").val(tilesNeeded);
-    }
-
-    $("#squareMeterInput").on("input", function () {
-        var inputValue = $(this).val().replace(/[^\d]/g, '');
-        $(this).val(inputValue);
-
-        squareMeters = parseInt(inputValue) || 0; // Update squareMeters here
-
-        updateTileDimensions();
-    });
-
-    $('.woovr-variation-radio').on('click', function () {
-        var selectedVariation = $(this).data('id');
-
-        if (selectedVariation !== 0) {
-            sizeName = $(this).find('.woovr-variation-name').text();
-        }
-
-        // Check if sizeName includes "Full Size Sample" or "Free Sample" and disable inputs
-        if (sizeName.includes("Full Size Sample") || sizeName.includes("Free Sample")) {
-            $("#squareMeterInput, #tilePieceInput").prop('disabled', true);
-        } else {
-            $("#squareMeterInput, #tilePieceInput").prop('disabled', false);
-            updateTileDimensions();
-        }
-        // updateTileDimensions();
-    });
-});
-*/
-
 jQuery(document).ready(function ($) {
     var sizeName = '';
     var squareMeters = 0;
+    var originalQtyValue = "";
+    var originalSqmValue = "";
+
 
     function updateTileDimensions() {
         var dimensions = sizeName.split('x');
@@ -203,12 +116,12 @@ jQuery(document).ready(function ($) {
     }
 
     // Trigger the handleRadioClick function for the checked radio button after a short delay
-    setTimeout(function () {
-        var $checkedRadio = $('.woovr-variation-radio:checked');
-        if ($checkedRadio.length > 0) {
-            handleRadioClick($checkedRadio);
-        }
-    }, 100);
+    // setTimeout(function () {
+    //   var $checkedRadio = $('.woovr-variation-radio:checked');
+    //   if ($checkedRadio.length > 0) {
+    //       handleRadioClick($checkedRadio);
+    //   }
+    //, 100);
 
     // Listen for radio button clicks
     $('.woovr-variation-radio').on('click', function () {
@@ -236,13 +149,40 @@ jQuery(document).ready(function ($) {
         updateQuantityInput($(this).val());
     });
 
-    // Reset inputs
-    $("#tilePieceInput").on("click", function () {
-        $(this).val('');
-    })
-    $("#squareMeterInput").on("click", function () {
-        $(this).val('');
-    })
+
+    // Focus event: Clear the input value
+    $('#tilePieceInput').on('focus', function () {
+        originalQtyValue = $(this).val(); // Save the original value
+        $(this).val(''); // Clear the input value
+    });
+
+    // Blur event: Restore the original value on click outside the input
+    $('#tilePieceInput').on('blur', function () {
+        var currentValue = $(this).val();
+
+        // Check if the current value is empty
+        if (currentValue === '') {
+            $(this).val(originalQtyValue); // Restore the original value
+        }
+    });
+
+    // Focus event: Clear the input value
+    $('#squareMeterInput').on('focus', function () {
+        originalSqmValue = $(this).val(); // Save the original value
+        $(this).val(''); // Clear the input value
+    });
+
+    // Blur event: Restore the original value on click outside the input
+    $('#squareMeterInput').on('blur', function () {
+        var currentValue = $(this).val();
+
+        // Check if the current value is empty
+        if (currentValue === '') {
+            $(this).val(originalSqmValue); // Restore the original value
+        }
+    });
+
+
 });
 
 

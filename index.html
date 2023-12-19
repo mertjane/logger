@@ -6,6 +6,7 @@
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
     <title>Document</title>
     <script src="https://code.jquery.com/jquery-3.6.4.min.js"></script>
+
 </head>
 
 <body>
@@ -18,19 +19,57 @@
         <button style="height: 44px; width: 40px;"><i class="fa">&#xf362;</i></button>
         <div style="display: flex; flex-direction: column; gap: 4px;">
             <label style="align-self: center;font-weight: 600;" for="tilePieceInput">Quantity</label>
-            <input style="height: 40px; width: 120px;" class="value" type="number"
-                oninput="this.value=(parseInt(this.value)||0)" id="tilePieceInput" placeholder="Quantity">
+            <input style="height: 40px; width: 120px;" class="value" type="number" oninput="handleInput(this)"
+                id="tilePieceInput" placeholder="Quantity" pattern="[0-9]+" min="1">
         </div>
     </div>
     <script>
-        $(document).ready(function () {
-            $("#tilePieceInput").on("click", function () {
-                $(this).val('');
+        jQuery(document).ready(function ($) {
+            var originalQtyValue = ""; 
+            var originalSqmValue = "";
+
+            // Focus event: Clear the input value
+            $('#tilePieceInput').on('focus', function () {
+                originalQtyValue = $(this).val(); // Save the original value
+                $(this).val(''); // Clear the input value
+            });
+
+            // Blur event: Restore the original value on click outside the input
+            $('#tilePieceInput').on('blur', function () {
+                var currentValue = $(this).val();
+
+                // Check if the current value is empty
+                if (currentValue === '') {
+                    $(this).val(originalQtyValue); // Restore the original value
+                }
+            });
+
+            // Focus event: Clear the input value
+            $('#squareMeterInput').on('focus', function () {
+                originalSqmValue = $(this).val(); // Save the original value
+                $(this).val(''); // Clear the input value
+            });
+
+            // Blur event: Restore the original value on click outside the input
+            $('#squareMeterInput').on('blur', function () {
+                var currentValue = $(this).val();
+
+                // Check if the current value is empty
+                if (currentValue === '') {
+                    $(this).val(originalSqmValue); // Restore the original value
+                }
+            });
+
+            $("#tilePieceInput").on("input", function () {
+                var inputValue = $(this).val();
+
+                inputValue = inputValue.replace(/[^\d-]/g, '');
+
+                // Set the sanitized value back to the input
+                $(this).val(inputValue);
+
             })
-            $("#squareMeterInput").on("click", function () {
-                $(this).val('');
-            })
-        });
+        })
     </script>
 </body>
 

@@ -17,7 +17,6 @@ add_action('wp_enqueue_scripts', 'add_scripts');
 
 
 // Register the shortcode
-
 function custom_radio_logger_shortcode()
 {
     ob_start();
