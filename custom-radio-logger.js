@@ -183,20 +183,13 @@ jQuery(document).ready(function ($) {
         }
     }
 
-    // Trigger the calculation on page load
-    // var $selectedRadio = $('.woovr-variation-radio:checked');
-    // if ($selectedRadio.length > 0) {
-    //    handleRadioClick($selectedRadio);
-    // }
-
-    // Get the initially checked radio button on page load
-    var $checkedRadio = $('.woovr-variation-radio:checked');
-
-    // If a radio button is checked, call handleRadioClick
-    if ($checkedRadio.length > 0) {
-        handleRadioClick($checkedRadio);
-    }
-
+    // Trigger the handleRadioClick function for the checked radio button after a short delay
+    setTimeout(function () {
+        var $checkedRadio = $('.woovr-variation-radio:checked');
+        if ($checkedRadio.length > 0) {
+            handleRadioClick($checkedRadio);
+        }
+    }, 100);
 
     // Listen for radio button clicks
     $('.woovr-variation-radio').on('click', function () {
