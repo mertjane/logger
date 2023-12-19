@@ -189,9 +189,13 @@ jQuery(document).ready(function ($) {
     //    handleRadioClick($selectedRadio);
     // }
 
-    setTimeout(function() {
-        handleRadioClick($('.woovr-variation-radio:checked'));
-    }, 100);
+    // Get the initially checked radio button on page load
+    var $checkedRadio = $('.woovr-variation-radio:checked');
+
+    // If a radio button is checked, call handleRadioClick
+    if ($checkedRadio.length > 0) {
+        handleRadioClick($checkedRadio);
+    }
 
 
     // Listen for radio button clicks
