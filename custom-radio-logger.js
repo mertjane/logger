@@ -219,13 +219,11 @@ jQuery(document).ready(function ($) {
         updateSquareMeters();
     });
 
-    // Listen for changes in the quantity input and update the tilePieceInput accordingly
     $("#tilePieceInput").on("input", function () {
-        var inputValue = $(this).val().replace(/[^\d.]/g, '');
-        $(this).val(inputValue);
-
-        // Update the quantity input with the calculated value
-        updateQuantityInput(inputValue);
+        updateSquareMeters();
+        
+        // Update the quantity input with the value from tilePieceInput
+        updateQuantityInput($(this).val());
     });
 });
 
