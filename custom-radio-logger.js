@@ -123,15 +123,7 @@ jQuery(document).ready(function ($) {
         }
     }, 100);
 
-     // Check if any radio button is checked on page load
-     var $checkedRadioOnLoad = $('.woovr-variation-radio:checked');
-     if ($checkedRadioOnLoad.length === 0) {
-         // If no radio button is checked, trigger the click event on the first radio button
-         $('.woovr-variation-radio:first').click();
-     } else {
-         // If a radio button is already checked, trigger the handleRadioClick function
-         handleRadioClick($checkedRadioOnLoad);
-     }
+    $('input:radio[name="woovr_variation_18837"]').attr("checked", true);
 
     // Listen for radio button clicks
     $('.woovr-variation-radio').on('click', function () {
