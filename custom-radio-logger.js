@@ -54,7 +54,6 @@ jQuery(document).ready(function ($) {
     var originalQtyValue = "";
     var originalSqmValue = "";
 
-
     function updateTileDimensions() {
         var dimensions = sizeName.split('x');
         var tileWidth = parseInt(dimensions[0]) / 1000;
@@ -80,8 +79,8 @@ jQuery(document).ready(function ($) {
 
 
     function updateSquareMeters() {
-        // var inputValue = $("#tilePieceInput").val().replace(/[^\d.]/g, '');
-        // $("#tilePieceInput").val(inputValue);
+        var inputValue = $("#tilePieceInput").val().replace(/[^\d.]/g, '');
+        $("#tilePieceInput").val(inputValue);
 
         var numberOfTiles = parseFloat(inputValue) || 0;
 
@@ -116,12 +115,12 @@ jQuery(document).ready(function ($) {
     }
 
     // Trigger the handleRadioClick function for the checked radio button after a short delay
-    // setTimeout(function () {
-    //   var $checkedRadio = $('.woovr-variation-radio:checked');
-    //   if ($checkedRadio.length > 0) {
-    //       handleRadioClick($checkedRadio);
-    //   }
-    //, 100);
+    setTimeout(function () {
+        var $checkedRadio = $('.woovr-variation-radio:checked');
+        if ($checkedRadio.length > 0) {
+            handleRadioClick($checkedRadio);
+        }
+    }, 100);
 
     // Listen for radio button clicks
     $('.woovr-variation-radio').on('click', function () {
@@ -130,8 +129,8 @@ jQuery(document).ready(function ($) {
 
 
     $("#squareMeterInput").on("input", function () {
-        // var inputValue = $(this).val().replace(/[^\d]/g, '');
-        // $(this).val(inputValue);
+        var inputValue = $(this).val().replace(/[^\d]/g, '');
+        $(this).val(inputValue);
 
         squareMeters = parseInt(inputValue) || 0;
 
@@ -148,7 +147,6 @@ jQuery(document).ready(function ($) {
         // Update the quantity input with the value from tilePieceInput
         updateQuantityInput($(this).val());
     });
-
 
     // Focus event: Clear the input value
     $('#tilePieceInput').on('focus', function () {
@@ -181,8 +179,6 @@ jQuery(document).ready(function ($) {
             $(this).val(originalSqmValue); // Restore the original value
         }
     });
-
-
 });
 
 
