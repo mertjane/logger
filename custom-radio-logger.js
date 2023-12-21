@@ -59,7 +59,8 @@ jQuery(document).ready(function ($) {
         var tileWidth = parseInt(dimensions[0]) / 1000;
         var tileHeight = parseInt(dimensions[1]) / 1000;
 
-        var tilesNeeded = (squareMeters / (tileWidth * tileHeight)).toFixed();
+        // var tilesNeeded = (squareMeters / (tileWidth * tileHeight)).toFixed();
+        var tilesNeeded = Math.ceil(squareMeters / (tileWidth * tileHeight));
 
         $("#tilePieceInput").val(tilesNeeded);
 
@@ -127,6 +128,12 @@ jQuery(document).ready(function ($) {
         handleRadioClick($(this));
     });
 
+    // Trigger the radio button click event if one is already selected on page load
+    var $checkedRadioOnLoad = $('.woovr-variation-radio:checked');
+    if ($checkedRadioOnLoad.length > 0) {
+        handleRadioClick($checkedRadioOnLoad);
+    }
+
 
     $("#squareMeterInput").on("input", function () {
         var inputValue = $(this).val().replace(/[^\d]/g, '');
@@ -149,9 +156,22 @@ jQuery(document).ready(function ($) {
     });
 
     // Focus event: Clear the input value
+    // $('#tilePieceInput').on('focus', function () {
+    //     originalQtyValue = $(this).val(); // Save the original value
+    //     $(this).val(''); // Clear the input value
+    // });
+
     $('#tilePieceInput').on('focus', function () {
         originalQtyValue = $(this).val(); // Save the original value
+
+
+        // Update the squareMeterInput with the real square meter calculation
+        updateSquareMeters();
+
         $(this).val(''); // Clear the input value
+        // Optionally, you may want to update the tilePieceInput based on square meters again
+        // This is to ensure that if the user clicks on tilePieceInput again, the tilePieceInput reflects the real square meter calculation
+        // updateTileDimensions();
     });
 
     // Blur event: Restore the original value on click outside the input
