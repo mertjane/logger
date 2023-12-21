@@ -123,7 +123,7 @@ jQuery(document).ready(function ($) {
         }
     }, 100);
 
-    $('input:radio[name="woovr_variation_18837"]').attr("checked", true);
+    $("#woovr-variation-radio").prop("checked", true);
 
     // Listen for radio button clicks
     $('.woovr-variation-radio').on('click', function () {
