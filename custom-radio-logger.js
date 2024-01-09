@@ -145,12 +145,19 @@ jQuery(document).ready(function ($) {
         updateSquareMeters();
     });
 
-    $("#tilePieceInput").on("input", function () {
+    $("#squareMeterInput").on("input", function () {
         updateSquareMeters();
 
         // Update the quantity input with the value from tilePieceInput
         updateQuantityInput($(this).val());
     });
+
+    /* $("#tilePieceInput").on("input", function () {
+        updateSquareMeters();
+
+        // Update the quantity input with the value from tilePieceInput
+        updateQuantityInput($(this).val());
+    }); */
 
     // Focus event: Clear the input value
     // $('#tilePieceInput').on('focus', function () {
