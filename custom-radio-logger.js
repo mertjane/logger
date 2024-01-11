@@ -1,11 +1,9 @@
 jQuery(document).ready(function ($) {
     var sizeName = '';
-    var squareMeters = 0;
     var originalQtyValue = "";
     var originalSqmValue = "";
-    var activeInput = null; // Track the active input
 
-    function updateTileDimensions() {
+    function updateTileDimensions(squareMeters) {
         var dimensions = sizeName.split('x');
         var tileWidth = parseInt(dimensions[0]) / 1000;
         var tileHeight = parseInt(dimensions[1]) / 1000;
@@ -14,10 +12,8 @@ jQuery(document).ready(function ($) {
 
         $("#tilePieceInput").val(tilesNeeded);
 
-        if (activeInput !== "#tilePieceInput") {
-            // Update the quantity input with the calculated tilesNeeded value from squareMeterInput
-            updateQuantityInput(squareMeters.toFixed(3));
-        }
+        // Update the quantity input with the calculated tilesNeeded value from squareMeterInput
+        updateQuantityInput(squareMeters.toFixed(3));
 
         // Trigger change event on the quantity input with a delay
         setTimeout(function () {
@@ -31,26 +27,25 @@ jQuery(document).ready(function ($) {
     }
 
     function updateSquareMeters() {
-        // Check if tilePieceInput is active, if yes, calculate squareMeterInput based on it
-        if (activeInput === "#tilePieceInput") {
-            var inputValue = $("#tilePieceInput").val().replace(/[^\d.]/g, '');
-            $("#tilePieceInput").val(inputValue);
+        var inputValue = $("#tilePieceInput").val().replace(/[^\d.]/g, '');
+        $("#tilePieceInput").val(inputValue);
 
-            var numberOfTiles = parseFloat(inputValue) || 0;
+        var numberOfTiles = parseFloat(inputValue) || 0;
 
-            var dimensions = sizeName.split('x');
-            var tileWidth = parseInt(dimensions[0]) / 1000;
-            var tileHeight = parseInt(dimensions[1]) / 1000;
+        var dimensions = sizeName.split('x');
+        var tileWidth = parseInt(dimensions[0]) / 1000;
+        var tileHeight = parseInt(dimensions[1]) / 1000;
 
-            var calculatedSquareMeters = numberOfTiles * tileWidth * tileHeight;
+        var calculatedSquareMeters = numberOfTiles * tileWidth * tileHeight;
 
-            // Update the squareMeterInput with the calculated value
-            $("#squareMeterInput").val(calculatedSquareMeters.toFixed(3));
+        // Update both the squareMeterInput and the quantity input with the calculated value
+        $("#squareMeterInput").val(calculatedSquareMeters.toFixed(3));
+        updateQuantityInput(calculatedSquareMeters.toFixed(3));
 
-            // Update the quantity input with the calculated value from squareMeterInput
-            updateQuantityInput(calculatedSquareMeters.toFixed(3));
-            
-        }
+         // Trigger change event on the quantity input with a delay
+            setTimeout(function () {
+                $("input[title='Qty']").trigger('change');
+            }, 100);
     }
 
     function handleRadioClick($radio) {
@@ -64,7 +59,7 @@ jQuery(document).ready(function ($) {
             $("#squareMeterInput, #tilePieceInput").prop('disabled', true);
         } else {
             $("#squareMeterInput, #tilePieceInput").prop('disabled', false);
-            updateTileDimensions();
+            updateTileDimensions(parseFloat($("#squareMeterInput").val()));
         }
     }
 
@@ -82,26 +77,20 @@ jQuery(document).ready(function ($) {
     });
 
     $("#squareMeterInput").on("input", function () {
-        activeInput = "#squareMeterInput";
-
         var inputValue = $(this).val().replace(/[^\d]/g, '');
         $(this).val(inputValue);
 
-        squareMeters = parseFloat(inputValue) || 0;
+        var squareMeters = parseFloat(inputValue) || 0;
 
-        updateTileDimensions();
+        updateTileDimensions(squareMeters);
     });
 
     $("#tilePieceInput").on("input", function () {
-        activeInput = "#tilePieceInput";
         updateSquareMeters();
     });
 
     $('#tilePieceInput').on('focus', function () {
-        activeInput = "#tilePieceInput";
         originalQtyValue = $(this).val();
-        updateSquareMeters();
-        $(this).val('');
     });
 
     $('#tilePieceInput').on('blur', function () {
@@ -113,9 +102,7 @@ jQuery(document).ready(function ($) {
     });
 
     $('#squareMeterInput').on('focus', function () {
-        activeInput = "#squareMeterInput";
         originalSqmValue = $(this).val();
-        $(this).val('');
     });
 
     $('#squareMeterInput').on('blur', function () {
