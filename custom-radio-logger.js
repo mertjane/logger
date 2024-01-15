@@ -1,4 +1,11 @@
 jQuery(document).ready(function ($) {
+
+    // Simulate click on the first radio button and trigger its change event
+    var $firstRadio = $('input[type="radio"]').filter(':visible:first');
+    $firstRadio.prop('checked', true).trigger('click').trigger('change');
+
+
+    
     var sizeName = '';
     var originalQtyValue = "";
     var originalSqmValue = "";
@@ -73,14 +80,14 @@ jQuery(document).ready(function ($) {
 }
 
 
-    setTimeout(function () {
-        var $checkedRadio = $('.woovr-variation-radio:checked');
-        if ($checkedRadio.length > 0) {
-            handleRadioClick($checkedRadio);
-        }
-    }, 100);
+    function calculateOnPageLoad() {
+        // Simulate click and change event on the first radio button
+        $firstRadio.prop('checked', true).trigger('click').trigger('change');
+    }
 
-    $('input[type="radio"]').filter(':visible:first').prop('checked', false);
+    // Simulate initial calculations after a short delay
+    setTimeout(calculateOnPageLoad, 100);
+
 
     $('.woovr-variation-radio').on('click', function () {
         handleRadioClick($(this));
