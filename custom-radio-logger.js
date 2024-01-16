@@ -1,11 +1,12 @@
 jQuery(document).ready(function ($) {
 
+    $(".warning").hide();
     // Simulate click on the first radio button and trigger its change event
     var $firstRadio = $('input[type="radio"]').filter(':visible:first');
     $firstRadio.prop('checked', true).trigger('click').trigger('change');
 
-    $(".warning").hide();
-    
+
+
     var sizeName = '';
     var originalQtyValue = "";
     var originalSqmValue = "";
@@ -34,63 +35,55 @@ jQuery(document).ready(function ($) {
     }
 
     function updateSquareMeters() {
-    var inputValue = $("#tilePieceInput").val().replace(/[^\d.]/g, '');
-    $("#tilePieceInput").val(inputValue);
+        var inputValue = $("#tilePieceInput").val().replace(/[^\d.]/g, '');
+        $("#tilePieceInput").val(inputValue);
 
-    var numberOfTiles = parseFloat(inputValue) || 0;
+        var numberOfTiles = parseFloat(inputValue) || 0;
 
-    if (sizeName.includes("Full Size Sample") || sizeName.includes("Free Sample")) {
-        // For Free Sample or Full Size Sample, update only the quantity input
-        updateQuantityInput(numberOfTiles.toFixed(3));
-    } else {
-        var dimensions = sizeName.split('x');
-        var tileWidth = parseInt(dimensions[0]) / 1000;
-        var tileHeight = parseInt(dimensions[1]) / 1000;
+        if (sizeName.includes("Full Size Sample") || sizeName.includes("Free Sample")) {
+            // For Free Sample or Full Size Sample, update only the quantity input
+            updateQuantityInput(numberOfTiles.toFixed(3));
+        } else {
+            var dimensions = sizeName.split('x');
+            var tileWidth = parseInt(dimensions[0]) / 1000;
+            var tileHeight = parseInt(dimensions[1]) / 1000;
 
-        var calculatedSquareMeters = numberOfTiles * tileWidth * tileHeight;
+            var calculatedSquareMeters = numberOfTiles * tileWidth * tileHeight;
 
-        // Update both the squareMeterInput and the quantity input with the calculated value
-        $("#squareMeterInput").val(calculatedSquareMeters.toFixed(3));
-        updateQuantityInput(calculatedSquareMeters.toFixed(3));
+            // Update both the squareMeterInput and the quantity input with the calculated value
+            $("#squareMeterInput").val(calculatedSquareMeters.toFixed(3));
+            updateQuantityInput(calculatedSquareMeters.toFixed(3));
+        }
+
+        // Trigger change event on the quantity input with a delay
+        setTimeout(function () {
+            $("input[title='Qty']").trigger('change');
+        }, 100);
     }
 
-    // Trigger change event on the quantity input with a delay
-    setTimeout(function () {
-        $("input[title='Qty']").trigger('change');
-    }, 100);
-}
 
+    function handleRadioClick($radio) {
+        var selectedVariation = $radio.data('id');
 
-function handleRadioClick($radio) {
-    var selectedVariation = $radio.data('id');
+        if (selectedVariation !== 0) {
+            sizeName = $radio.find('.woovr-variation-name').text();
+        }
 
-    if (selectedVariation !== 0) {
-        sizeName = $radio.find('.woovr-variation-name').text();
+        if (sizeName.includes("Free Sample")) {
+            $("#squareMeterInput").prop('disabled', true);
+            $("#tilePieceInput").prop('disabled', false); // Enable tilePieceInput
+
+            // Update only tilePieceInput and quantity input based on squareMeterInput value
+            updateTileDimensions(parseFloat($("#squareMeterInput").val()));
+
+            // Hide the warning span when Free Sample is selected
+            $(".warning").hide();
+        } else {
+            $("#squareMeterInput, #tilePieceInput").prop('disabled', false);
+            updateTileDimensions(parseFloat($("#squareMeterInput").val()));
+        }
     }
 
-    if (sizeName.includes("Full Size Sample") || sizeName.includes("Free Sample")) {
-        $("#squareMeterInput").prop('disabled', true);
-        $("#tilePieceInput").prop('disabled', false); // Enable tilePieceInput
-
-        // Update only tilePieceInput and quantity input based on squareMeterInput value
-        updateTileDimensions(parseFloat($("#squareMeterInput").val()));
-
-        // Set max quantity for Free Sample
-        $("#tilePieceInput").attr('max', 4);
-
-        // Show the warning span for Free Sample
-        $(".warning").show();
-    } else {
-        $("#squareMeterInput, #tilePieceInput").prop('disabled', false);
-        updateTileDimensions(parseFloat($("#squareMeterInput").val()));
-
-        // Remove max quantity for other variations
-        $("#tilePieceInput").removeAttr('max');
-
-        // Hide the warning span for other variations
-        $(".warning").hide();
-    }
-}
 
     function calculateOnPageLoad() {
         // Simulate click and change event on the first radio button
@@ -114,11 +107,11 @@ function handleRadioClick($radio) {
         updateTileDimensions(squareMeters);
     });
 
-    
+
     $("#tilePieceInput").on("input", function () {
         updateSquareMeters();
-        
-        // Show/hide warning span based on input value
+
+        // Show/hide warning span based on input value and Free Sample radio selection
         var currentValue = $(this).val();
         if (sizeName.includes("Free Sample") && currentValue > 4) {
             $(".warning").show();
@@ -126,6 +119,8 @@ function handleRadioClick($radio) {
             $(".warning").hide();
         }
     });
+
+
 
 
     $('#tilePieceInput').on('focus', function () {
