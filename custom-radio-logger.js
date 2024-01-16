@@ -124,9 +124,22 @@ jQuery(document).ready(function ($) {
     $('#tilePieceInput').on('focus', function () {
         originalQtyValue = $(this).val();
         $(this).val('');
-    
-        // Trigger the updateSquareMeters function when the user focuses on tilePieceInput
-        updateSquareMeters();
+
+        // Calculate real square meter value when the user focuses on tilePieceInput
+        var numberOfTiles = parseFloat(originalQtyValue) || 0;
+        var dimensions = sizeName.split('x');
+        var tileWidth = parseInt(dimensions[0]) / 1000;
+        var tileHeight = parseInt(dimensions[1]) / 1000;
+
+        var calculatedSquareMeters = numberOfTiles * tileWidth * tileHeight;
+
+        // Update squareMeterInput with the calculated value
+        $("#squareMeterInput").val(calculatedSquareMeters.toFixed(3));
+        updateQuantityInput(calculatedSquareMeters.toFixed(3));
+
+        setTimeout(function () {
+            $("input[title='Qty']").trigger('change');
+        }, 100);
     });
 
     $('#tilePieceInput').on('blur', function () {
