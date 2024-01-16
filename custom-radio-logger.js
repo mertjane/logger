@@ -69,7 +69,7 @@ jQuery(document).ready(function ($) {
             sizeName = $radio.find('.woovr-variation-name').text();
         }
 
-        if (sizeName.includes("Free Sample")) {
+        if (sizeName.includes("Free Sample") || sizeName.includes("Full Size Sample")) {
             $("#squareMeterInput").prop('disabled', true);
             $("#tilePieceInput").prop('disabled', false); // Enable tilePieceInput
 
