@@ -60,7 +60,7 @@ jQuery(document).ready(function ($) {
     }, 100);
 }
 
-    function handleRadioClick($radio) {
+function handleRadioClick($radio) {
     var selectedVariation = $radio.data('id');
 
     if (selectedVariation !== 0) {
@@ -73,11 +73,18 @@ jQuery(document).ready(function ($) {
 
         // Update only tilePieceInput and quantity input based on squareMeterInput value
         updateTileDimensions(parseFloat($("#squareMeterInput").val()));
+
+        // Set max quantity for Free Sample
+        $("#tilePieceInput").attr('max', 4);
     } else {
         $("#squareMeterInput, #tilePieceInput").prop('disabled', false);
         updateTileDimensions(parseFloat($("#squareMeterInput").val()));
+
+        // Remove max quantity for other variations
+        $("#tilePieceInput").removeAttr('max');
     }
 }
+
 
 
     function calculateOnPageLoad() {
@@ -102,8 +109,17 @@ jQuery(document).ready(function ($) {
         updateTileDimensions(squareMeters);
     });
 
+    
     $("#tilePieceInput").on("input", function () {
         updateSquareMeters();
+        
+        // Show/hide warning span based on input value
+        var currentValue = $(this).val();
+        if (currentValue > 4) {
+            $(".warning").show();
+        } else {
+            $(".warning").hide();
+        }
     });
 
     $('#tilePieceInput').on('focus', function () {
