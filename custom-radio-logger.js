@@ -121,11 +121,12 @@ jQuery(document).ready(function ($) {
     });
 
 
-
-
     $('#tilePieceInput').on('focus', function () {
         originalQtyValue = $(this).val();
         $(this).val('');
+    
+        // Trigger the updateSquareMeters function when the user focuses on tilePieceInput
+        updateSquareMeters();
     });
 
     $('#tilePieceInput').on('blur', function () {
