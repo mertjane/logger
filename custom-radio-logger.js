@@ -4,7 +4,7 @@ jQuery(document).ready(function ($) {
     var $firstRadio = $('input[type="radio"]').filter(':visible:first');
     $firstRadio.prop('checked', true).trigger('click').trigger('change');
 
-
+    $(".warning").hide();
     
     var sizeName = '';
     var originalQtyValue = "";
@@ -60,6 +60,7 @@ jQuery(document).ready(function ($) {
     }, 100);
 }
 
+
 function handleRadioClick($radio) {
     var selectedVariation = $radio.data('id');
 
@@ -76,16 +77,20 @@ function handleRadioClick($radio) {
 
         // Set max quantity for Free Sample
         $("#tilePieceInput").attr('max', 4);
+
+        // Show the warning span for Free Sample
+        $(".warning").show();
     } else {
         $("#squareMeterInput, #tilePieceInput").prop('disabled', false);
         updateTileDimensions(parseFloat($("#squareMeterInput").val()));
 
         // Remove max quantity for other variations
         $("#tilePieceInput").removeAttr('max');
+
+        // Hide the warning span for other variations
+        $(".warning").hide();
     }
 }
-
-
 
     function calculateOnPageLoad() {
         // Simulate click and change event on the first radio button
@@ -115,12 +120,13 @@ function handleRadioClick($radio) {
         
         // Show/hide warning span based on input value
         var currentValue = $(this).val();
-        if (currentValue > 4) {
+        if (sizeName.includes("Free Sample") && currentValue > 4) {
             $(".warning").show();
         } else {
             $(".warning").hide();
         }
     });
+
 
     $('#tilePieceInput').on('focus', function () {
         originalQtyValue = $(this).val();
