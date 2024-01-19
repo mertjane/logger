@@ -99,7 +99,7 @@ jQuery(document).ready(function ($) {
     });
 
     $("#squareMeterInput").on("input", function () {
-        var inputValue = $(this).val().replace(/[^\d]/g, '');
+        var inputValue = $(this).val().replace(/[^\d.]/g, '');
         $(this).val(inputValue);
 
         var squareMeters = parseFloat(inputValue) || 0;
@@ -131,16 +131,20 @@ jQuery(document).ready(function ($) {
         var tileWidth = parseInt(dimensions[0]) / 1000;
         var tileHeight = parseInt(dimensions[1]) / 1000;
 
-        var calculatedSquareMeters = numberOfTiles * tileWidth * tileHeight;
+        // Check if tileWidth and tileHeight are valid numbers
+        if (!isNaN(tileWidth) && !isNaN(tileHeight)) {
+            var calculatedSquareMeters = numberOfTiles * tileWidth * tileHeight;
 
-        // Update squareMeterInput with the calculated value
-        $("#squareMeterInput").val(calculatedSquareMeters.toFixed(3));
-        updateQuantityInput(calculatedSquareMeters.toFixed(3));
+            // Update squareMeterInput with the calculated value
+            $("#squareMeterInput").val(calculatedSquareMeters.toFixed(3));
+            updateQuantityInput(calculatedSquareMeters.toFixed(3));
 
-        setTimeout(function () {
-            $("input[title='Qty']").trigger('change');
-        }, 100);
+            setTimeout(function () {
+                $("input[title='Qty']").trigger('change');
+            }, 100);
+        }
     });
+
 
     $('#tilePieceInput').on('blur', function () {
         var currentValue = $(this).val();
@@ -160,6 +164,24 @@ jQuery(document).ready(function ($) {
 
         if (currentValue === '') {
             $(this).val(originalSqmValue);
+        } else {
+            originalQtyValue = $('#tilePieceInput').val();
+            var numberOfTiles = parseFloat(originalQtyValue) || 0;
+            var dimensions = sizeName.split('x');
+            var tileWidth = parseInt(dimensions[0]) / 1000;
+            var tileHeight = parseInt(dimensions[1]) / 1000;
+
+            var calculatedSquareMeters = numberOfTiles * tileWidth * tileHeight;
+
+            $(this).val(calculatedSquareMeters.toFixed(3));
+            updateQuantityInput(calculatedSquareMeters.toFixed(3));
+
+            setTimeout(function () {
+                $("input[title='Qty']").trigger('change');
+            }, 100);
+
         }
     });
+
+
 });

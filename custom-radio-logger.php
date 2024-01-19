@@ -29,7 +29,7 @@ function custom_radio_logger_shortcode()
         <button style="height: 44px; width: 40px;"><i class="fa">&#xf362;</i></button>
         <div style="display: flex; flex-direction: column; gap: 4px;">
             <label style="align-self: center;font-weight: 600;" for="tilePieceInput">Piece</label>
-            <input style="height: 40px; width: 120px;" class="value" oninput="this.value=(parseInt(this.value)||0)" type="text" id="tilePieceInput" placeholder="Piece">
+            <input style="height: 40px; width: 120px;" class="value" type="text" id="tilePieceInput" placeholder="Piece">
             <span style="font-size: 12px;color: #c62e35;" class="warning">*Max allowed quantity is 4</span>
         </div>
     </div>
